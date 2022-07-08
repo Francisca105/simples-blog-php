@@ -6,12 +6,16 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = 'SELECT * FROM auth WHERE user = \''.$username.'\' and password = md5(\''.$password.'\')';
-        $pesq = $mysql->query($sql);
-        $rows = mysqli_num_rows ( $pesq );
+        $sql = 'SELECT * FROM auth WHERE user = ? and password = md5(?)';
+        $pstat = $mysql->prepare($sql);
+        $pstat->bind_param("ss", $username, $password);
+        $pstat->execute();
+        $pstat->store_result();
+        $rows = $pstat->num_rows;
         if($rows == 0) {
             $_SESSION['login'] = false;
             header('Location: /?info=loginfailed');
+            exit();
         }
         $_SESSION['login'] = true;
         $_SESSION['user'] = $username;

@@ -7,7 +7,9 @@
         $content = $_POST['content'];
         $title = $_POST['title'];
 
-        $mysql->query('INSERT INTO `blog` (`id`, `title`, `content`) VALUES (NULL, \''.$title.'\', \''.$content.'\')');
+        $pstat = $mysql->prepare('INSERT INTO `blog` (`id`, `title`, `content`) VALUES (NULL, ?, ?)');
+        $pstat->bind_param("ss", $title, $content);
+        $pstat->execute();
         header('Location: /?info=added');
         exit();
     }
