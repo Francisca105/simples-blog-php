@@ -1,11 +1,13 @@
 <?php
     include('logic.php');
     if(!isset($_GET['id'])) {
-        return header('Location: /?info=notfound');
+        header('Location: /?info=notfound');
+        exit();
     } 
-    $este = findOne($_GET['id']);
-    if(!isset($este)) {
-        return header('Location: /?info=notfound');
+    $entry = findOne($_GET['id']);
+    if(!isset($entry)) {
+        header('Location: /?info=notfound');
+        exit();
     } 
 ?>
 
@@ -22,9 +24,9 @@
     <div class="container mt-5">
         <a href="/" class="btn btn-outline-light btn-lg active" role="button" aria-pressed="true">Home</a>
         <div class="text-center">
-            <h1 class="display-1"><?php echo $este->title ?></h1>
+            <h1 class="display-1"><?php echo $entry->title ?></h1>
             <hr>
-            <p class="lead"><?php echo $este->content ?></p>
+            <p class="lead"><?php echo $entry->content ?></p>
         </div>
     </div>
 

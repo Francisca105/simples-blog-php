@@ -4,18 +4,23 @@
     if(!Loggedin()) header('Location: /?info=noperm');
 
     if(!isset($_GET['id'])) {
-        return header('Location: /?info=notfound');
+        header('Location: /?info=notfound');
+        exit();
     } 
-    $este = findOne($_GET['id']);
-    if(!isset($este)) {
-        return header('Location: /?info=notfound');
+    $id = $_GET['id'];
+    $entry = findOne($id);
+    if(!isset($entry)) {
+        header('Location: /?info=notfound');
+        exit();
     } 
 
     if(isset($_POST['content']) & isset($_POST['title'])) {
         $content = $_POST['content'];
         $title = $_POST['title'];
 
-        $mysql->query('UPDATE `blog` SET `title` = \''.$title.'\', `content` = \''.$content.'\' WHERE `blog`.`id` = '.$_GET['id']);
+        $pstat = $mysql->prepare('UPDATE `blog` SET `title` = ?, `content` = ? WHERE `blog`.`id` = ?');
+        $pstat->bind_param("ssi", $title, $content, $id);
+        $pstat->execute();
         header('Location: /?info=edited');
         exit();
     }
@@ -37,8 +42,8 @@
 
         <div class="text-center">
             <form method="POST">
-                <input type="text" placeholder="Blog Title" class="form-control my-3 bg-transparent text-black text-center" name="title" value="<?php echo $este->title ?>" required>
-                <textarea name="content" placeholder="Blog Description" class="form-control my-3 bg-transparent text-black" cols="30" rows="10" required><?php echo $este->content ?></textarea>
+                <input type="text" placeholder="Blog Title" class="form-control my-3 bg-transparent text-black text-center" name="title" value="<?php echo $entry->title ?>" required>
+                <textarea name="content" placeholder="Blog Description" class="form-control my-3 bg-transparent text-black" cols="30" rows="10" required><?php echo $entry->content ?></textarea>
         </div>
         <div class="text-right">
             <button class="btn btn-success" name="new_post">Edit</button>
