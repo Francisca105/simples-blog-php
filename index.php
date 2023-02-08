@@ -44,6 +44,10 @@
                 echo '<div class="alert alert-danger" role="alert">Login failed.</div>';
             }
 
+            if($info == 'registerfailed') {
+                echo '<div class="alert alert-danger" role="alert">Register failed.</div>';
+            }
+
             if($info == 'login') {
                 echo '<div class="alert alert-success" role="alert">You are now logged-in!</div>';
             }
