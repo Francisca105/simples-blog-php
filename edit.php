@@ -42,8 +42,8 @@
 
         <div class="text-center">
             <form method="POST">
-                <input type="text" placeholder="Blog Title" class="form-control my-3 bg-transparent text-black text-center" name="title" value="<?php echo $entry->title ?>" required>
-                <textarea name="content" placeholder="Blog Description" class="form-control my-3 bg-transparent text-black" cols="30" rows="10" required><?php echo $entry->content ?></textarea>
+                <input type="text" placeholder="Blog Title" class="form-control my-3 bg-transparent text-black text-center" name="title" value="<?= htmlspecialchars($entry->title) ?>" required>
+                <textarea name="content" placeholder="Blog Description" class="form-control my-3 bg-transparent text-black" cols="30" rows="10" required><?= htmlspecialchars($entry->content) ?></textarea>
         </div>
         <div class="text-right">
             <button class="btn btn-success" name="new_post">Edit</button>
