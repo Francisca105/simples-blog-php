@@ -24,9 +24,9 @@
     <div class="container mt-5">
         <a href="/" class="btn btn-outline-light btn-lg active" role="button" aria-pressed="true">Home</a>
         <div class="text-center">
-            <h1 class="display-1"><?php echo $entry->title ?></h1>
+            <h1 class="display-1"><?=  htmlspecialchars($entry->title) ?></h1>
             <hr>
-            <p class="lead"><?php echo $entry->content ?></p>
+            <p class="lead"><?= htmlspecialchars($entry->content) ?></p>
         </div>
     </div>
 

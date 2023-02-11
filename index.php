@@ -44,6 +44,10 @@
                 echo '<div class="alert alert-danger" role="alert">Login failed.</div>';
             }
 
+            if($info == 'registerfailed') {
+                echo '<div class="alert alert-danger" role="alert">Register failed.</div>';
+            }
+
             if($info == 'login') {
                 echo '<div class="alert alert-success" role="alert">You are now logged-in!</div>';
             }
@@ -67,9 +71,9 @@
 
             echo '<div class="card" style="width: 18rem;">
             <div class="card-body">
-              <h5 class="card-title">'.$post['title'].'</h5>
-              <p class="card-text">'.$text.'</p>
-              <a href="/view.php?id='.$post['id'].'" class="card-link">Read more</a>';
+              <h5 class="card-title">'.htmlspecialchars($post['title']).'</h5>
+              <p class="card-text">'.htmlspecialchars($text).'</p>
+              <a href="/view.php?id='.filter_input($post['id'], FILTER_SANITIZE_NUMBER_INT).'" class="card-link">Read more</a>';
             if(Loggedin()) echo '<a href="/delete.php?id='.$post['id'].'" class="card-link float-right">Delete</a><a href="/edit.php?id='.$post['id'].'" class="card-link float-right">Edit</a>';
             echo '</div></div>';
         }

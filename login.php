@@ -6,13 +6,13 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        $sql = 'SELECT * FROM auth WHERE user = ? and password = md5(?)';
+        $sql = 'SELECT * FROM auth WHERE user = ?';
         $pstat = $mysql->prepare($sql);
-        $pstat->bind_param("ss", $username, $password);
+        $pstat->bind_param("s", $username);
         $pstat->execute();
-        $pstat->store_result();
-        $rows = $pstat->num_rows;
-        if($rows == 0) {
+        $result = $pstat->get_result();
+        $user = $result->fetch_object();
+        if(!isset($user) || !password_verify($password, $user->password)) {
             $_SESSION['login'] = false;
             header('Location: /?info=loginfailed');
             exit();
@@ -38,6 +38,7 @@
 <body>
     <div class="container mt-5">
         <a href="/" class="btn btn-outline-light btn-lg active" role="button" aria-pressed="true">Home</a>
+        <a href="/register.php" class="btn btn-outline-light btn-lg active" role="button" aria-pressed="true">Register</a>
         <br><br><br>
         <form class="form-inline" method="POST">
         <div class="form-group mb-2">
